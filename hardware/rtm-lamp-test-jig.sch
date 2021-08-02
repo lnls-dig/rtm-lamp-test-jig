@@ -362,9 +362,9 @@ Wire Wire Line
 	6600 2350 7000 2350
 Text Label 6750 1600 0    50   ~ 0
 RTM_PS
-Text Label 6750 1700 0    50   ~ 0
-RTM_SDA
 Text Label 6750 1800 0    50   ~ 0
+RTM_SDA
+Text Label 6750 1700 0    50   ~ 0
 RTM_SCL
 Wire Wire Line
 	6750 1800 7100 1800
