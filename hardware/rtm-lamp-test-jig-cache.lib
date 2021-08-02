@@ -339,6 +339,65 @@ X VBST 6 400 0 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
+# cern-tyco_TYCO_5120913-1
+#
+DEF cern-tyco_TYCO_5120913-1 J 0 50 Y Y 1 L N
+F0 "J" 100 0 50 H V L CNN
+F1 "cern-tyco_TYCO_5120913-1" 0 -245 50 H I L CNN
+F2 "TYCO THD:TYCO_5120913-1" 0 -320 50 H I L CNN
+F3 "\\\\cern.ch\\dfs\\Applications\\Altium\\Datasheets\\TYCO_5120913-1.pdf" 0 -395 50 H I L CNN
+F4 "${Value}" 650 0 50 H I L CNN "Val"
+F5 "TYCO_5120913-1" 0 -470 50 H I L CNN "Part Number"
+F6 "Guide Female" 0 -545 50 H I L CNN "Library Ref"
+F7 "SchLib\\Connectors.SchLib" 0 -620 50 H I L CNN "Library Path"
+F8 " " 0 -695 50 H I L CNN "Comment"
+F9 "Standard" 0 -770 50 H I L CNN "Component Kind"
+F10 "Standard" 0 -845 50 H I L CNN "Component Type"
+F11 " " 0 -920 50 H I L CNN "PackageDescription"
+F12 "1" 0 -995 50 H I L CNN "Pin Count"
+F13 " " 0 -1070 50 H I L CNN "Case"
+F14 "PcbLib\\TYCO THD.PcbLib" 0 -1145 50 H I L CNN "Footprint Path"
+F15 "TYCO_5120913-1" 0 -1220 50 H I L CNN "Footprint Ref"
+F16 " " 0 -1295 50 H I L CNN "Family"
+F17 "Yes" 0 -1370 50 H I L CNN "Mounted"
+F18 "No" 0 -1445 50 H I L CNN "Socket"
+F19 "No" 0 -1520 50 H I L CNN "SMD"
+F20 "Yes" 0 -1595 50 H I L CNN "PressFit"
+F21 "No" 0 -1670 50 H I L CNN "Sense"
+F22 " " 0 -1745 50 H I L CNN "Sense Comment"
+F23 "None" 0 -1820 50 H I L CNN "Status"
+F24 " " 0 -1895 50 H I L CNN "Status Comment"
+F25 " " 0 -1970 50 H I L CNN "SCEM"
+F26 " " 0 -2045 50 H I L CNN "Device"
+F27 "Universal Right Angle Female Power Module Guide, Keyed 0°" 0 -2120 50 H I L CNN "Part Description"
+F28 "TYCO ELECTRONICS" 0 -2195 50 H I L CNN "Manufacturer"
+F29 "5120913-1" 0 -2270 50 H I L CNN "Manufacturer Part Number"
+F30 "9.78mm" 0 -2345 50 H I L CNN "ComponentHeight"
+F31 " " 0 -2420 50 H I L CNN "ComponentLink1URL"
+F32 " " 0 -2495 50 H I L CNN "ComponentLink1Description"
+F33 " " 0 -2570 50 H I L CNN "ComponentLink2URL"
+F34 " " 0 -2645 50 H I L CNN "ComponentLink2Description"
+F35 "\\\\cern.ch\\dfs\\Applications\\Altium\\Datasheets\\TYCO_5120913-1.pdf" 0 -2720 50 H I L CNN "HelpURL"
+F36 "CERN DEM JLC" 0 -2795 50 H I L CNN "Author"
+F37 "08/28/13 00:00:00" 0 -2870 50 H I L CNN "CreateDate"
+F38 "09/10/19 00:00:00" 0 -2945 50 H I L CNN "LatestRevisionDate"
+F39 "Connectors" 0 -3020 50 H I L CNN "Database Table Name"
+F40 "TYCO" 0 -3095 50 H I L CNN "Library Name"
+F41 "TYCO THD" 0 -3170 50 H I L CNN "Footprint Library"
+F42 "This work is licensed under the Creative Commons CC-BY-SA 4.0 License. To the extent that circuit schematics that use Licensed Material can be considered to be ‘Adapted Material’, then the copyright holder waives article 3.b of the license with respect to these schematics." 0 -3245 50 H I L CNN "License"
+DRAW
+P 2 0 1 10 -50 155 -50 -50 N
+P 2 0 1 10 -40 165 -50 155 N
+P 2 0 1 10 -40 165 40 165 N
+P 2 0 1 10 -30 20 30 20 N
+P 2 0 1 10 40 165 50 155 N
+P 2 0 1 10 50 -50 -50 -50 N
+P 2 0 1 10 50 -50 50 155 N
+P 5 0 1 10 30 160 30 20 0 0 -30 20 -30 160 N
+X 1 1 0 -100 50 U 0 0 0 1 B
+ENDDRAW
+ENDDEF
+#
 # cern-tyco_TYCO_6469081-1
 #
 DEF cern-tyco_TYCO_6469081-1 J 0 50 Y Y 3 L N

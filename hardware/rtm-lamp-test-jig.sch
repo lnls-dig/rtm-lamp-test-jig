@@ -1310,4 +1310,85 @@ Wire Wire Line
 	9350 1800 9350 1850
 Wire Wire Line
 	9350 1850 9400 1850
+$Comp
+L cern-tyco:TYCO_5120913-1 J8
+U 1 1 61050221
+P 10200 1200
+F 0 "J8" V 10200 1394 50  0000 L CNN
+F 1 "TYCO_5120913-1" H 10200 955 50  0001 L CNN
+F 2 "cern-tyco-thd:TYCO_5120913-1" H 10200 880 50  0001 L CNN
+F 3 "\\\\cern.ch\\dfs\\Applications\\Altium\\Datasheets\\TYCO_5120913-1.pdf" H 10200 805 50  0001 L CNN
+F 4 "${Value}" H 10850 1200 50  0001 L CNN "Val"
+F 5 "TYCO_5120913-1" H 10200 730 50  0001 L CNN "Part Number"
+F 6 "Guide Female" H 10200 655 50  0001 L CNN "Library Ref"
+F 7 "SchLib\\Connectors.SchLib" H 10200 580 50  0001 L CNN "Library Path"
+F 8 " " H 10200 505 50  0001 L CNN "Comment"
+F 9 "Standard" H 10200 430 50  0001 L CNN "Component Kind"
+F 10 "Standard" H 10200 355 50  0001 L CNN "Component Type"
+F 11 " " H 10200 280 50  0001 L CNN "PackageDescription"
+F 12 "1" H 10200 205 50  0001 L CNN "Pin Count"
+F 13 " " H 10200 130 50  0001 L CNN "Case"
+F 14 "PcbLib\\TYCO THD.PcbLib" H 10200 55  50  0001 L CNN "Footprint Path"
+F 15 "TYCO_5120913-1" H 10200 -20 50  0001 L CNN "Footprint Ref"
+F 16 " " H 10200 -95 50  0001 L CNN "Family"
+F 17 "Yes" H 10200 -170 50  0001 L CNN "Mounted"
+F 18 "No" H 10200 -245 50  0001 L CNN "Socket"
+F 19 "No" H 10200 -320 50  0001 L CNN "SMD"
+F 20 "Yes" H 10200 -395 50  0001 L CNN "PressFit"
+F 21 "No" H 10200 -470 50  0001 L CNN "Sense"
+F 22 " " H 10200 -545 50  0001 L CNN "Sense Comment"
+F 23 "None" H 10200 -620 50  0001 L CNN "Status"
+F 24 " " H 10200 -695 50  0001 L CNN "Status Comment"
+F 25 " " H 10200 -770 50  0001 L CNN "SCEM"
+F 26 " " H 10200 -845 50  0001 L CNN "Device"
+F 27 "Universal Right Angle Female Power Module Guide, Keyed 0°" H 10200 -920 50  0001 L CNN "Part Description"
+F 28 "TYCO ELECTRONICS" H 10200 -995 50  0001 L CNN "Manufacturer"
+F 29 "5120913-1" H 10200 -1070 50  0001 L CNN "Manufacturer Part Number"
+F 30 "9.78mm" H 10200 -1145 50  0001 L CNN "ComponentHeight"
+F 31 " " H 10200 -1220 50  0001 L CNN "ComponentLink1URL"
+F 32 " " H 10200 -1295 50  0001 L CNN "ComponentLink1Description"
+F 33 " " H 10200 -1370 50  0001 L CNN "ComponentLink2URL"
+F 34 " " H 10200 -1445 50  0001 L CNN "ComponentLink2Description"
+F 35 "\\\\cern.ch\\dfs\\Applications\\Altium\\Datasheets\\TYCO_5120913-1.pdf" H 10200 -1520 50  0001 L CNN "HelpURL"
+F 36 "CERN DEM JLC" H 10200 -1595 50  0001 L CNN "Author"
+F 37 "08/28/13 00:00:00" H 10200 -1670 50  0001 L CNN "CreateDate"
+F 38 "09/10/19 00:00:00" H 10200 -1745 50  0001 L CNN "LatestRevisionDate"
+F 39 "Connectors" H 10200 -1820 50  0001 L CNN "Database Table Name"
+F 40 "TYCO" H 10200 -1895 50  0001 L CNN "Library Name"
+F 41 "TYCO THD" H 10200 -1970 50  0001 L CNN "Footprint Library"
+F 42 "This work is licensed under the Creative Commons CC-BY-SA 4.0 License. To the extent that circuit schematics that use Licensed Material can be considered to be ‘Adapted Material’, then the copyright holder waives article 3.b of the license with respect to these schematics." H 10200 -2045 50  0001 L CNN "License"
+	1    10200 1200
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND2 #PWR0128
+U 1 1 610DE229
+P 10100 1200
+F 0 "#PWR0128" H 10100 950 50  0001 C CNN
+F 1 "GND2" V 10105 1072 50  0000 R CNN
+F 2 "" H 10100 1200 50  0001 C CNN
+F 3 "" H 10100 1200 50  0001 C CNN
+	1    10100 1200
+	0    1    1    0   
+$EndComp
+Connection ~ 9150 5200
+Wire Wire Line
+	8950 5550 8950 5250
+Connection ~ 3750 5100
+Wire Wire Line
+	3200 5100 3450 5100
+Wire Wire Line
+	3450 5100 3450 5150
+Wire Wire Line
+	3450 5150 3550 5150
+Wire Wire Line
+	3550 5150 3550 5450
+Connection ~ 3450 5100
+Wire Wire Line
+	8600 5200 8850 5200
+Wire Wire Line
+	8950 5250 8850 5250
+Wire Wire Line
+	8850 5250 8850 5200
+Connection ~ 8850 5200
 $EndSCHEMATC
