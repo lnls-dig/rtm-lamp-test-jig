@@ -485,22 +485,16 @@ $EndComp
 $Comp
 L Device:L_Core_Ferrite L2
 U 1 1 610BBAAB
-P 8800 5200
-F 0 "L2" V 9025 5200 50  0000 C CNN
-F 1 "3.3uH" V 8934 5200 50  0000 C CNN
-F 2 "Inductor_SMD:L_Coilcraft_XxL4020" H 8800 5200 50  0001 C CNN
-F 3 "~" H 8800 5200 50  0001 C CNN
-	1    8800 5200
+P 9000 5200
+F 0 "L2" V 9225 5200 50  0000 C CNN
+F 1 "3.3uH" V 9134 5200 50  0000 C CNN
+F 2 "Inductor_SMD:L_Coilcraft_XxL4020" H 9000 5200 50  0001 C CNN
+F 3 "~" H 9000 5200 50  0001 C CNN
+	1    9000 5200
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
 	8650 5300 8650 5550
-Wire Wire Line
-	8950 5550 9000 5550
-Wire Wire Line
-	9000 5550 9000 5200
-Wire Wire Line
-	9000 5200 8950 5200
 $Comp
 L Device:R R10
 U 1 1 610BBAB7
@@ -709,12 +703,6 @@ $EndComp
 Wire Wire Line
 	8600 5300 8650 5300
 Wire Wire Line
-	8600 5200 8650 5200
-Wire Wire Line
-	9000 5200 9150 5200
-Connection ~ 9000 5200
-Connection ~ 9150 5200
-Wire Wire Line
 	10400 5200 10850 5200
 Connection ~ 10400 5200
 Wire Wire Line
@@ -751,22 +739,16 @@ $EndComp
 $Comp
 L Device:L_Core_Ferrite L1
 U 1 1 6113DFCD
-P 3400 5100
-F 0 "L1" V 3625 5100 50  0000 C CNN
-F 1 "3.3uH" V 3534 5100 50  0000 C CNN
-F 2 "Inductor_SMD:L_Coilcraft_XxL4020" H 3400 5100 50  0001 C CNN
-F 3 "~" H 3400 5100 50  0001 C CNN
-	1    3400 5100
+P 3600 5100
+F 0 "L1" V 3825 5100 50  0000 C CNN
+F 1 "3.3uH" V 3734 5100 50  0000 C CNN
+F 2 "Inductor_SMD:L_Coilcraft_XxL4020" H 3600 5100 50  0001 C CNN
+F 3 "~" H 3600 5100 50  0001 C CNN
+	1    3600 5100
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
 	3250 5200 3250 5450
-Wire Wire Line
-	3550 5450 3600 5450
-Wire Wire Line
-	3600 5450 3600 5100
-Wire Wire Line
-	3600 5100 3550 5100
 $Comp
 L Device:R R1
 U 1 1 6113DFD7
@@ -933,12 +915,6 @@ F 3 "http://www.ti.com/lit/ds/symlink/tps563200.pdf" H 2800 5200 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3200 5200 3250 5200
-Wire Wire Line
-	3200 5100 3250 5100
-Wire Wire Line
-	3600 5100 3750 5100
-Connection ~ 3600 5100
-Connection ~ 3750 5100
 Wire Wire Line
 	5000 5100 5450 5100
 Connection ~ 5000 5100
