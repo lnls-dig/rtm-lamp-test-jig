@@ -1367,4 +1367,52 @@ Wire Wire Line
 Wire Wire Line
 	8850 5250 8850 5200
 Connection ~ 8850 5200
+$Comp
+L Connector:Screw_Terminal_01x01 J9
+U 1 1 6133ABE8
+P 2400 5950
+F 0 "J9" H 2480 5992 50  0000 L CNN
+F 1 "SCREW" H 2480 5901 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 2400 5950 50  0001 C CNN
+F 3 "~" H 2400 5950 50  0001 C CNN
+	1    2400 5950
+	1    0    0    -1  
+$EndComp
+NoConn ~ 2200 5950
+$Comp
+L Connector:Screw_Terminal_01x01 J10
+U 1 1 6134BC16
+P 3050 5950
+F 0 "J10" H 3130 5992 50  0000 L CNN
+F 1 "SCREW" H 3130 5901 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 3050 5950 50  0001 C CNN
+F 3 "~" H 3050 5950 50  0001 C CNN
+	1    3050 5950
+	1    0    0    -1  
+$EndComp
+NoConn ~ 2850 5950
+$Comp
+L Connector:Screw_Terminal_01x01 J11
+U 1 1 61352BB8
+P 7950 6000
+F 0 "J11" H 8030 6042 50  0000 L CNN
+F 1 "SCREW" H 8030 5951 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 7950 6000 50  0001 C CNN
+F 3 "~" H 7950 6000 50  0001 C CNN
+	1    7950 6000
+	1    0    0    -1  
+$EndComp
+NoConn ~ 7750 6000
+$Comp
+L Connector:Screw_Terminal_01x01 J12
+U 1 1 61352BBF
+P 8600 6000
+F 0 "J12" H 8680 6042 50  0000 L CNN
+F 1 "SCREW" H 8680 5951 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 8600 6000 50  0001 C CNN
+F 3 "~" H 8600 6000 50  0001 C CNN
+	1    8600 6000
+	1    0    0    -1  
+$EndComp
+NoConn ~ 8400 6000
 $EndSCHEMATC
