@@ -99,7 +99,7 @@ F 3 "~" H 6450 2350 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Text GLabel 6300 2550 2    50   Input ~ 0
-RTM_3V3
+RTM_3V3MP
 Wire Wire Line
 	6300 2550 6100 2550
 Wire Wire Line
