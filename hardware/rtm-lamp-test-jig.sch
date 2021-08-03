@@ -1115,55 +1115,6 @@ F 41 "This work is licensed under the Creative Commons CC-BY-SA 4.0 License. To 
 	2    9600 1450
 	1    0    0    -1  
 $EndComp
-$Comp
-L cern-tyco:TYCO_6469081-1 J6
-U 3 1 611F4040
-P 10500 1450
-F 0 "J6" H 10828 -100 50  0000 L CNN
-F 1 "TYCO_6469081-1" H 10500 -1725 50  0001 L CNN
-F 2 "cern-tyco-thd:TYCO_6469081-1" H 10500 -1800 50  0001 L CNN
-F 3 "\\\\cern.ch\\dfs\\Applications\\Altium\\Datasheets\\TYCO_6469081-1.pdf" H 10500 -1875 50  0001 L CNN
-F 4 "Advanced TCA" H 10500 -2775 50  0001 L CNN "Family"
-F 5 "TYCO_6469081-1" H 10500 -1950 50  0001 L CNN "Part Number"
-F 6 "Connector ATCA 60+30 Female" H 10500 -2025 50  0001 L CNN "Library Ref"
-F 7 "SchLib\\Connectors.SchLib" H 10500 -2100 50  0001 L CNN "Library Path"
-F 8 " " H 10500 -2175 50  0001 L CNN "Comment"
-F 9 "Standard" H 10500 -2250 50  0001 L CNN "Component Kind"
-F 10 "Standard" H 10500 -2325 50  0001 L CNN "Component Type"
-F 11 " " H 10500 -2400 50  0001 L CNN "PackageDescription"
-F 12 "90" H 10500 -2475 50  0001 L CNN "Pin Count"
-F 13 " " H 10500 -2550 50  0001 L CNN "Case"
-F 14 "PcbLib\\TYCO THD.PcbLib" H 10500 -2625 50  0001 L CNN "Footprint Path"
-F 15 "TYCO_6469081-1" H 10500 -2700 50  0001 L CNN "Footprint Ref"
-F 16 "Yes" H 10500 -2850 50  0001 L CNN "Mounted"
-F 17 "No" H 10500 -2925 50  0001 L CNN "Socket"
-F 18 "No" H 10500 -3000 50  0001 L CNN "SMD"
-F 19 "Yes" H 10500 -3075 50  0001 L CNN "PressFit"
-F 20 "No" H 10500 -3150 50  0001 L CNN "Sense"
-F 21 " " H 10500 -3225 50  0001 L CNN "Sense Comment"
-F 22 "None" H 10500 -3300 50  0001 L CNN "Status"
-F 23 " " H 10500 -3375 50  0001 L CNN "Status Comment"
-F 24 " " H 10500 -3450 50  0001 L CNN "SCEM"
-F 25 " " H 10500 -3525 50  0001 L CNN "Device"
-F 26 "60 Positions, Pitch 2.5mm,  Advanced TCA, Z-PACK HM-Zd Right Angle Press Fit Receptacle" H 10500 -3600 50  0001 L CNN "Part Description"
-F 27 "TYCO ELECTRONICS" H 10500 -3675 50  0001 L CNN "Manufacturer"
-F 28 "6469081-1" H 10500 -3750 50  0001 L CNN "Manufacturer Part Number"
-F 29 "12.18mm" H 10500 -3825 50  0001 L CNN "ComponentHeight"
-F 30 " " H 10500 -3900 50  0001 L CNN "ComponentLink1URL"
-F 31 " " H 10500 -3975 50  0001 L CNN "ComponentLink1Description"
-F 32 " " H 10500 -4050 50  0001 L CNN "ComponentLink2URL"
-F 33 " " H 10500 -4125 50  0001 L CNN "ComponentLink2Description"
-F 34 "\\\\cern.ch\\dfs\\Applications\\Altium\\Datasheets\\TYCO_6469081-1.pdf" H 10500 -4200 50  0001 L CNN "HelpURL"
-F 35 "CERN DEM JLC" H 10500 -4275 50  0001 L CNN "Author"
-F 36 "08/28/13 00:00:00" H 10500 -4350 50  0001 L CNN "CreateDate"
-F 37 "08/28/13 00:00:00" H 10500 -4425 50  0001 L CNN "LatestRevisionDate"
-F 38 "Connectors" H 10500 -4500 50  0001 L CNN "Database Table Name"
-F 39 "TYCO" H 10500 -4575 50  0001 L CNN "Library Name"
-F 40 "TYCO THD" H 10500 -4650 50  0001 L CNN "Footprint Library"
-F 41 "This work is licensed under the Creative Commons CC-BY-SA 4.0 License. To the extent that circuit schematics that use Licensed Material can be considered to be ‘Adapted Material’, then the copyright holder waives article 3.b of the license with respect to these schematics." H 10500 -4725 50  0001 L CNN "License"
-	3    10500 1450
-	1    0    0    -1  
-$EndComp
 Text GLabel 8050 1400 1    50   Input ~ 0
 RTM_12V
 Wire Wire Line
@@ -1561,23 +1512,16 @@ NoConn ~ 1400 1950
 NoConn ~ 1400 1850
 NoConn ~ 10300 1550
 NoConn ~ 10300 1650
-NoConn ~ 10300 1750
 NoConn ~ 10300 1850
 NoConn ~ 10300 1950
-NoConn ~ 10300 2050
 NoConn ~ 10300 2150
 NoConn ~ 10300 2250
-NoConn ~ 10300 2350
 NoConn ~ 10300 2450
 NoConn ~ 10300 2550
-NoConn ~ 10300 2650
 NoConn ~ 10300 2750
 NoConn ~ 10300 2850
-NoConn ~ 10300 2950
 NoConn ~ 10300 3050
 NoConn ~ 10300 3150
-NoConn ~ 10300 3250
-NoConn ~ 10300 3350
 NoConn ~ 10300 3450
 NoConn ~ 10300 3650
 NoConn ~ 10300 3750
@@ -1585,28 +1529,20 @@ NoConn ~ 10300 3950
 NoConn ~ 10300 4050
 NoConn ~ 10300 4250
 NoConn ~ 10300 4350
-NoConn ~ 9400 4450
 NoConn ~ 9400 4350
 NoConn ~ 9400 4250
-NoConn ~ 9400 4150
 NoConn ~ 9400 4050
 NoConn ~ 9400 3950
-NoConn ~ 9400 3850
 NoConn ~ 9400 3750
 NoConn ~ 9400 3650
-NoConn ~ 9400 3550
 NoConn ~ 9400 3450
 NoConn ~ 9400 3350
-NoConn ~ 9400 3250
 NoConn ~ 9400 3150
 NoConn ~ 9400 3050
-NoConn ~ 9400 2950
 NoConn ~ 9400 2850
 NoConn ~ 9400 2750
-NoConn ~ 9400 2650
 NoConn ~ 9400 2550
 NoConn ~ 9400 2450
-NoConn ~ 9400 2350
 NoConn ~ 9400 2250
 NoConn ~ 9400 2150
 NoConn ~ 9400 2050
@@ -1615,28 +1551,20 @@ NoConn ~ 8150 1750
 NoConn ~ 8150 2050
 NoConn ~ 8150 2150
 NoConn ~ 8150 2250
-NoConn ~ 8150 2350
 NoConn ~ 8150 2450
 NoConn ~ 8150 2550
-NoConn ~ 8150 2650
 NoConn ~ 8150 2750
 NoConn ~ 8150 2850
-NoConn ~ 8150 2950
 NoConn ~ 8150 3050
 NoConn ~ 8150 3150
-NoConn ~ 8150 3250
 NoConn ~ 8150 3350
 NoConn ~ 8150 3450
-NoConn ~ 8150 3550
 NoConn ~ 8150 3650
 NoConn ~ 8150 3750
-NoConn ~ 8150 3850
 NoConn ~ 8150 3950
 NoConn ~ 8150 4050
-NoConn ~ 8150 4150
 NoConn ~ 8150 4250
 NoConn ~ 8150 4350
-NoConn ~ 8150 4450
 NoConn ~ 5500 2550
 NoConn ~ 3400 2750
 $Comp
@@ -1683,4 +1611,176 @@ F 3 "" H 4150 5950 50  0001 C CNN
 	1    4150 5950
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	10250 3550 10250 3250
+Wire Wire Line
+	10250 3250 10300 3250
+Connection ~ 10250 3550
+$Comp
+L cern-tyco:TYCO_6469081-1 J6
+U 3 1 611F4040
+P 10500 1450
+F 0 "J6" H 10828 -100 50  0000 L CNN
+F 1 "TYCO_6469081-1" H 10500 -1725 50  0001 L CNN
+F 2 "cern-tyco-thd:TYCO_6469081-1" H 10500 -1800 50  0001 L CNN
+F 3 "\\\\cern.ch\\dfs\\Applications\\Altium\\Datasheets\\TYCO_6469081-1.pdf" H 10500 -1875 50  0001 L CNN
+F 4 "Advanced TCA" H 10500 -2775 50  0001 L CNN "Family"
+F 5 "TYCO_6469081-1" H 10500 -1950 50  0001 L CNN "Part Number"
+F 6 "Connector ATCA 60+30 Female" H 10500 -2025 50  0001 L CNN "Library Ref"
+F 7 "SchLib\\Connectors.SchLib" H 10500 -2100 50  0001 L CNN "Library Path"
+F 8 " " H 10500 -2175 50  0001 L CNN "Comment"
+F 9 "Standard" H 10500 -2250 50  0001 L CNN "Component Kind"
+F 10 "Standard" H 10500 -2325 50  0001 L CNN "Component Type"
+F 11 " " H 10500 -2400 50  0001 L CNN "PackageDescription"
+F 12 "90" H 10500 -2475 50  0001 L CNN "Pin Count"
+F 13 " " H 10500 -2550 50  0001 L CNN "Case"
+F 14 "PcbLib\\TYCO THD.PcbLib" H 10500 -2625 50  0001 L CNN "Footprint Path"
+F 15 "TYCO_6469081-1" H 10500 -2700 50  0001 L CNN "Footprint Ref"
+F 16 "Yes" H 10500 -2850 50  0001 L CNN "Mounted"
+F 17 "No" H 10500 -2925 50  0001 L CNN "Socket"
+F 18 "No" H 10500 -3000 50  0001 L CNN "SMD"
+F 19 "Yes" H 10500 -3075 50  0001 L CNN "PressFit"
+F 20 "No" H 10500 -3150 50  0001 L CNN "Sense"
+F 21 " " H 10500 -3225 50  0001 L CNN "Sense Comment"
+F 22 "None" H 10500 -3300 50  0001 L CNN "Status"
+F 23 " " H 10500 -3375 50  0001 L CNN "Status Comment"
+F 24 " " H 10500 -3450 50  0001 L CNN "SCEM"
+F 25 " " H 10500 -3525 50  0001 L CNN "Device"
+F 26 "60 Positions, Pitch 2.5mm,  Advanced TCA, Z-PACK HM-Zd Right Angle Press Fit Receptacle" H 10500 -3600 50  0001 L CNN "Part Description"
+F 27 "TYCO ELECTRONICS" H 10500 -3675 50  0001 L CNN "Manufacturer"
+F 28 "6469081-1" H 10500 -3750 50  0001 L CNN "Manufacturer Part Number"
+F 29 "12.18mm" H 10500 -3825 50  0001 L CNN "ComponentHeight"
+F 30 " " H 10500 -3900 50  0001 L CNN "ComponentLink1URL"
+F 31 " " H 10500 -3975 50  0001 L CNN "ComponentLink1Description"
+F 32 " " H 10500 -4050 50  0001 L CNN "ComponentLink2URL"
+F 33 " " H 10500 -4125 50  0001 L CNN "ComponentLink2Description"
+F 34 "\\\\cern.ch\\dfs\\Applications\\Altium\\Datasheets\\TYCO_6469081-1.pdf" H 10500 -4200 50  0001 L CNN "HelpURL"
+F 35 "CERN DEM JLC" H 10500 -4275 50  0001 L CNN "Author"
+F 36 "08/28/13 00:00:00" H 10500 -4350 50  0001 L CNN "CreateDate"
+F 37 "08/28/13 00:00:00" H 10500 -4425 50  0001 L CNN "LatestRevisionDate"
+F 38 "Connectors" H 10500 -4500 50  0001 L CNN "Database Table Name"
+F 39 "TYCO" H 10500 -4575 50  0001 L CNN "Library Name"
+F 40 "TYCO THD" H 10500 -4650 50  0001 L CNN "Footprint Library"
+F 41 "This work is licensed under the Creative Commons CC-BY-SA 4.0 License. To the extent that circuit schematics that use Licensed Material can be considered to be ‘Adapted Material’, then the copyright holder waives article 3.b of the license with respect to these schematics." H 10500 -4725 50  0001 L CNN "License"
+	3    10500 1450
+	1    0    0    -1  
+$EndComp
+Connection ~ 10250 3250
+NoConn ~ 10300 3350
+Wire Wire Line
+	10300 2950 10250 2950
+Connection ~ 10250 2950
+Wire Wire Line
+	10250 2950 10250 3250
+Wire Wire Line
+	10300 2650 10250 2650
+Connection ~ 10250 2650
+Wire Wire Line
+	10250 2650 10250 2950
+Wire Wire Line
+	10300 2350 10250 2350
+Wire Wire Line
+	10250 2350 10250 2650
+NoConn ~ 10300 2050
+NoConn ~ 10300 1750
+$Comp
+L power:GND2 #PWR0132
+U 1 1 619598CF
+P 9350 4550
+F 0 "#PWR0132" H 9350 4300 50  0001 C CNN
+F 1 "GND2" H 9355 4377 50  0000 C CNN
+F 2 "" H 9350 4550 50  0001 C CNN
+F 3 "" H 9350 4550 50  0001 C CNN
+	1    9350 4550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9350 4550 9350 4450
+Wire Wire Line
+	9350 4450 9400 4450
+Wire Wire Line
+	9400 4150 9350 4150
+Wire Wire Line
+	9350 4150 9350 4450
+Connection ~ 9350 4450
+Wire Wire Line
+	9400 3850 9350 3850
+Wire Wire Line
+	9350 3850 9350 4150
+Connection ~ 9350 4150
+Wire Wire Line
+	9400 3550 9350 3550
+Wire Wire Line
+	9350 3550 9350 3850
+Connection ~ 9350 3850
+Wire Wire Line
+	9350 3550 9350 3250
+Wire Wire Line
+	9350 3250 9400 3250
+Connection ~ 9350 3550
+Connection ~ 9350 3250
+Wire Wire Line
+	9400 2950 9350 2950
+Connection ~ 9350 2950
+Wire Wire Line
+	9350 2950 9350 3250
+Wire Wire Line
+	9400 2650 9350 2650
+Connection ~ 9350 2650
+Wire Wire Line
+	9350 2650 9350 2950
+Wire Wire Line
+	9400 2350 9350 2350
+Wire Wire Line
+	9350 2350 9350 2650
+$Comp
+L power:GND2 #PWR?
+U 1 1 619657B7
+P 8100 4550
+F 0 "#PWR?" H 8100 4300 50  0001 C CNN
+F 1 "GND2" H 8105 4377 50  0000 C CNN
+F 2 "" H 8100 4550 50  0001 C CNN
+F 3 "" H 8100 4550 50  0001 C CNN
+	1    8100 4550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8100 4550 8100 4450
+Wire Wire Line
+	8100 4450 8150 4450
+Wire Wire Line
+	8150 4150 8100 4150
+Wire Wire Line
+	8100 4150 8100 4450
+Connection ~ 8100 4450
+Wire Wire Line
+	8150 3850 8100 3850
+Wire Wire Line
+	8100 3850 8100 4150
+Connection ~ 8100 4150
+Wire Wire Line
+	8150 3550 8100 3550
+Wire Wire Line
+	8100 3550 8100 3850
+Connection ~ 8100 3850
+Wire Wire Line
+	8100 3550 8100 3250
+Wire Wire Line
+	8100 3250 8150 3250
+Connection ~ 8100 3550
+Connection ~ 8100 3250
+Wire Wire Line
+	8150 2950 8100 2950
+Connection ~ 8100 2950
+Wire Wire Line
+	8100 2950 8100 3250
+Wire Wire Line
+	8150 2650 8100 2650
+Connection ~ 8100 2650
+Wire Wire Line
+	8100 2650 8100 2950
+Wire Wire Line
+	8150 2350 8100 2350
+Wire Wire Line
+	8100 2350 8100 2650
 $EndSCHEMATC
