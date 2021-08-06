@@ -180,4 +180,5 @@ fp-info-cache
 *.xml
 *.csv
 
-
+# Manufacturering output files
+outputs/
