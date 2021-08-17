@@ -6,7 +6,7 @@ from setuptools import setup, Extension
 cdce906_mod = Extension("libcdce906", sources = ["cdce906_cfg.c"])
 
 setup(
-    name = "rtm_test_jig",
+    name = "rtm-lamp-test",
     version = "0.0.1",
     author = "Augusto Fraga Giachero",
     author_email = "afg@augustofg.net",
