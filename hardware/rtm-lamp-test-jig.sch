@@ -4,10 +4,10 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
-Date ""
-Rev ""
-Comp ""
+Title "RTM-LAMP Test Jig"
+Date "2021-08-17"
+Rev "v1.0"
+Comp "Centro Nacional de Pesquisa em Energia e Materiais (CNPEM)"
 Comment1 ""
 Comment2 ""
 Comment3 ""
@@ -1783,4 +1783,6 @@ Wire Wire Line
 	8150 2350 8100 2350
 Wire Wire Line
 	8100 2350 8100 2650
+Text Notes 550  7700 0    50   ~ 0
+Copyright CNPEM, 2021 Licensed under CERN-OHL-S version 2
 $EndSCHEMATC
