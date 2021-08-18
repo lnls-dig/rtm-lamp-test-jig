@@ -15,6 +15,11 @@ setup(
     keywords = "rtm-lamp test jig",
     url = "https://github.com/lnls-dig/rtm-lamp-test-jig",
     packages = ["rtm_lamp_libs"],
+    entry_points = {
+        'console_scripts': [
+            'rtm-lamp-test=rtm_lamp_libs.rtm_lamp_test:main',
+        ],
+    },
     long_description = "Utilities to test and configure RTM-LAMP boards.",
     install_requires = ["smbus2"],
     ext_modules = [cdce906_mod],
