@@ -219,3 +219,6 @@ def main():
             print("Teste {:d}/{:d} FALHOU".format(tnum + 1, len(tests)))
             exit(1)
         print("------------------------------")
+
+if __name__ == "__main__":
+    main()
