@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import os
 import errno
 import time
+import json
 from rtm_lamp_libs import *
 
 class VoltMeasure():
@@ -305,6 +306,86 @@ class TestSupply(Test):
         print("Desligando alimentações...")
         self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
 
+class ConfigureCDCE906(Test):
+    def _run(self):
+        print("Configurando CDCE906...")
+        cfg = {
+            "clk_src": "CLK_SRC_CLKIN_DIFF",
+            "pll_div_m": [
+                1,
+                27,
+                375
+            ],
+            "pll_div_n": [
+                8,
+                250,
+                3136
+            ],
+            "pll_vco_mux": [
+                "PLL_VCO_MUX_PLL",
+                "PLL_VCO_MUX_PLL",
+                "PLL_VCO_MUX_PLL"
+            ],
+            "pll_fvco": [
+                "PLL_FVCO_180_300MHZ",
+                "PLL_FVCO_180_300MHZ",
+                "PLL_FVCO_180_300MHZ"
+            ],
+            "ssc_mod_amount": "SSC_MOD_AMOUNT_OFF",
+            "ssc_mod_freq": "SSC_MOD_FREQ_3286",
+            "s0_cfg": "S0_CFG_POWER_DOWN_CTRL",
+            "s1_cfg": "S1_CFG_Yx_FIXED_OUTPUT_CTRL",
+            "pll_sel": [
+                "Px_PLL_SEL_BYPASS",
+                "Px_PLL_SEL_BYPASS",
+                "Px_PLL_SEL_BYPASS",
+                "Px_PLL_SEL_BYPASS",
+                "Px_PLL_SEL_PLL1",
+                "Px_PLL_SEL_PLL1"
+            ],
+            "p_div": [
+                1,
+                120,
+                30,
+                60,
+                32,
+                4
+            ],
+            "y_slew": [
+                "Yx_SLEW_CFG_NOMINAL_1NS",
+                "Yx_SLEW_CFG_NOMINAL_1NS",
+                "Yx_SLEW_CFG_NOMINAL_1NS",
+                "Yx_SLEW_CFG_NOMINAL_1NS",
+                "Yx_SLEW_CFG_NOMINAL_1NS",
+                "Yx_SLEW_CFG_NOMINAL_1NS"
+            ],
+            "y_p_sel": [
+                "Yx_Px_SEL_P0",
+                "Yx_Px_SEL_P1",
+                "Yx_Px_SEL_P2",
+                "Yx_Px_SEL_P3",
+                "Yx_Px_SEL_P2",
+                "Yx_Px_SEL_P2"
+            ],
+            "y_out": [
+                "Yx_OUT_CFG_EN",
+                "Yx_OUT_CFG_DIS_HIGH",
+                "Yx_OUT_CFG_DIS_LOW",
+                "Yx_OUT_CFG_DIS_LOW",
+                "Yx_OUT_CFG_DIS_LOW",
+                "Yx_OUT_CFG_DIS_LOW"
+            ]
+        }
+        print("Configuração enviada:")
+        print(json.dumps(cfg, indent=4))
+        self._devices.cdce906.set_cfg(cfg, write_eeprom=True)
+        time.sleep(.2)
+        print("Configuração lida:")
+        cfg_read = self._devices.cdce906.get_cfg()
+        print(json.dumps(cfg_read, indent=4))
+        if cfg != cfg_read:
+            raise Exception("Configuração inválida do CDCE906 (IC12)")
+
 def main():
     i2c_bus = 2
     print("Início do procedimento de testes")
@@ -316,7 +397,12 @@ def main():
     print("Dispositivos I2C inicializados")
     print("------------------------------")
 
-    tests = [TestLED(devices), TestTemps(devices), TestSupply(devices)]
+    tests = [
+        TestLED(devices),
+        TestTemps(devices),
+        TestSupply(devices),
+        ConfigureCDCE906(devices),
+    ]
 
     for tnum, test in enumerate(tests):
         if test.run():
