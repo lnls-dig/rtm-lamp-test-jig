@@ -191,7 +191,16 @@ class Test():
 class TestLED(Test):
     def _run(self):
         print("Testando LEDs")
-        self._devices.gpio.set_leds(True, False, False)
+        self._devices.gpio.set_leds(True, True, True)
+        print("LEDs Azul (LED1), Verde (LED2) e Vermelho (LED3) acesos [s/n]?")
+        ans = input()
+        if ans != "s" and ans != "S":
+            raise Exception("Falha nos LEDs")
+        self._devices.gpio.set_leds(False, False, False)
+        print("LEDs Azul (LED1), Verde (LED2) e Vermelho (LED3) apagados [s/n]?")
+        ans = input()
+        if ans != "s" and ans != "S":
+            raise Exception("Falha nos LEDs")
 
 class TestTemps(Test):
     def _run(self):
