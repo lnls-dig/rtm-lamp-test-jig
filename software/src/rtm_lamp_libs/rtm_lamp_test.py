@@ -19,11 +19,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 """
 
-import os
+import sys
 import errno
 import time
 import json
+import logging
 from rtm_lamp_libs import *
+
+class RTMLoggerFile(logging.Handler):
+    def __init__(self, logfile, level=logging.NOTSET):
+        self.setLevel(level)
+        self._logfile = open(logfile, "w")
+
+    def handle(self, record):
+        self._logfile.write(record.msg + "\n")
+
+class RTMLoggerTerm(logging.Handler):
+    def handle(self, record):
+        print(record.msg)
 
 class VoltMeasure():
     def __init__(self, bus):
@@ -177,8 +190,9 @@ class RTMDevices():
         self.eeprom = ee24xx64.ee24xx64(i2c_bus, 0x50)
 
 class Test():
-    def __init__(self, devices):
+    def __init__(self, devices, log):
         self._devices = devices
+        self._log = log
 
     def run(self):
         passed = False
@@ -186,32 +200,34 @@ class Test():
             self._run()
             passed = True
         except Exception as e:
-            print(e.__str__())
+            self._log.error(e.__str__())
         return passed
 
 class TestLED(Test):
     def _run(self):
-        print("Testando LEDs")
+        self._log.info("Testando LEDs")
         self._devices.gpio.set_leds(True, True, True)
-        print("LEDs Azul (LED1), Verde (LED2) e Vermelho (LED3) acesos [s/n]?")
+        self._log.info("LEDs Azul (LED1), Verde (LED2) e Vermelho (LED3) acesos [s/n]?")
         ans = input()
+        self._log.debug(ans)
         if ans != "s" and ans != "S":
             raise Exception("Falha nos LEDs")
         self._devices.gpio.set_leds(False, False, False)
-        print("LEDs Azul (LED1), Verde (LED2) e Vermelho (LED3) apagados [s/n]?")
+        self._log.info("LEDs Azul (LED1), Verde (LED2) e Vermelho (LED3) apagados [s/n]?")
         ans = input()
+        self._log.debug(ans)
         if ans != "s" and ans != "S":
             raise Exception("Falha nos LEDs")
 
 class TestTemps(Test):
     def _run(self):
-        print("Testando sensores de temperatura")
+        self._log.info("Testando sensores de temperatura")
         temps = self._devices.tmeas.get_temps()
         for key, val in temps.items():
             if val < 10 or val > 40:
                 raise Exception("Temperatura fora  da faixa especificada: {} = {:.02f}°C".format(key, val))
             else:
-                print("Temperatura {} = {:.02f}°C OK".format(key, val))
+                self._log.info("Temperatura {} = {:.02f}°C OK".format(key, val))
 
 class TestSupply(Test):
     def test_voltages(self, expected_voltages, maximum_voltages, timeout):
@@ -235,12 +251,12 @@ class TestSupply(Test):
         for key, val in vmeas.items():
             err = val - expected_voltages[key][0]
             if abs(err) < expected_voltages[key][1]:
-                print("  Alimentação {} = {:.02f}V OK".format(key, val))
+                self._log.info("  Alimentação {} = {:.02f}V OK".format(key, val))
             else:
                 raise Exception("  Alimentação {} = {:.02f}V FALHOU".format(key, val))
 
     def _run(self):
-        print("Testando alimentação")
+        self._log.info("Testando alimentação")
         max_abs_voltages = {"VS1" : 5.1,
                             "VS2" : 5.1,
                             "-7V" : -7.5,
@@ -250,7 +266,7 @@ class TestSupply(Test):
                             "+2V5" : 2.6}
         try:
             self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
-            print("Desligando alimentações...")
+            self._log.info("Desligando alimentações...")
             expected_voltages = {"VS1" : [0, 0.1],
                                  "VS2" : [0, 0.1],
                                  "-7V" : [0, 0.2],
@@ -260,7 +276,7 @@ class TestSupply(Test):
                                  "+2V5" : [0, 0.1]}
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
             self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=True, en_5v=True)
-            print("Habilitando +7V, -7V e +5V...")
+            self._log.info("Habilitando +7V, -7V e +5V...")
             expected_voltages = {"VS1" : [0, 0.1],
                                  "VS2" : [0, 0.1],
                                  "-7V" : [-7, 0.2],
@@ -270,7 +286,7 @@ class TestSupply(Test):
                                  "+2V5" : [2.5, 0.1]}
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
             self._devices.gpio.set_pwr(en_vs1=True, en_vs2=False, en_7v=False, en_5v=False)
-            print("Habilitando VS1...")
+            self._log.info("Habilitando VS1...")
             expected_voltages = {"VS1" : [4, 0.1],
                                  "VS2" : [0, 0.1],
                                  "-7V" : [0, 0.2],
@@ -280,7 +296,7 @@ class TestSupply(Test):
                                  "+2V5" : [0, 0.2]}
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
             self._devices.gpio.set_pwr(en_vs1=False, en_vs2=True, en_7v=False, en_5v=False)
-            print("Habilitando VS2...")
+            self._log.info("Habilitando VS2...")
             expected_voltages = {"VS1" : [0, 0.1],
                                  "VS2" : [4, 0.1],
                                  "-7V" : [0, 0.2],
@@ -290,7 +306,7 @@ class TestSupply(Test):
                                  "+2V5" : [0, 0.2]}
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
             self._devices.gpio.set_pwr(en_vs1=True, en_vs2=True, en_7v=True, en_5v=True)
-            print("Habilitando VS1, VS2, -7V, +7V e +5V...")
+            self._log.info("Habilitando VS1, VS2, -7V, +7V e +5V...")
             expected_voltages = {"VS1" : [4, 0.1],
                                  "VS2" : [4, 0.1],
                                  "-7V" : [-7, 0.2],
@@ -300,15 +316,15 @@ class TestSupply(Test):
                                  "+2V5" : [2.5, 0.2]}
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
         except Exception as e:
-            print("Desligando alimentações...")
+            self._log.info("Desligando alimentações...")
             self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
             raise e
-        print("Desligando alimentações...")
+        self._log.info("Desligando alimentações...")
         self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
 
 class ConfigureCDCE906(Test):
     def _run(self):
-        print("Configurando CDCE906...")
+        self._log.info("Configurando CDCE906...")
         cfg = {
             "clk_src": "CLK_SRC_CLKIN_DIFF",
             "pll_div_m": [
@@ -376,41 +392,51 @@ class ConfigureCDCE906(Test):
                 "Yx_OUT_CFG_DIS_LOW"
             ]
         }
-        print("Configuração enviada:")
-        print(json.dumps(cfg, indent=4))
+        self._log.debug("Configuração enviada:")
+        self._log.debug(json.dumps(cfg, indent=4))
         self._devices.cdce906.set_cfg(cfg, write_eeprom=True)
         time.sleep(.2)
-        print("Configuração lida:")
+        self._log.debug("Configuração lida:")
         cfg_read = self._devices.cdce906.get_cfg()
-        print(json.dumps(cfg_read, indent=4))
+        self._log.debug(json.dumps(cfg_read, indent=4))
         if cfg != cfg_read:
             raise Exception("Configuração inválida do CDCE906 (IC12)")
 
 def main():
-    i2c_bus = 2
-    print("Início do procedimento de testes")
+    try:
+        i2c_bus = int(sys.argv[1])
+        logfile = sys.argv[2]
+    except:
+        print("Usage: {} i2c_bus logfile".format(sys.argv[0]))
+        exit(1)
+
+    log = logging.Logger("rtm-test-logger")
+    log.addHandler(RTMLoggerFile(logfile, logging.DEBUG))
+    log.addHandler(RTMLoggerTerm(logging.INFO))
+
+    log.info("Início do procedimento de testes")
     try:
         devices = RTMDevices(i2c_bus)
     except Exception as e:
-        print(e.__str__)
+        log.error(e.__str__)
         exit(1)
-    print("Dispositivos I2C inicializados")
-    print("------------------------------")
+    log.info("Dispositivos I2C inicializados")
+    log.info("------------------------------")
 
     tests = [
-        TestLED(devices),
-        TestTemps(devices),
-        TestSupply(devices),
-        ConfigureCDCE906(devices),
+        TestLED(devices, log),
+        TestTemps(devices, log),
+        TestSupply(devices, log),
+        ConfigureCDCE906(devices, log),
     ]
 
     for tnum, test in enumerate(tests):
         if test.run():
-            print("Teste {:d}/{:d} OK".format(tnum + 1, len(tests)))
+            log.info("Teste {:d}/{:d} OK".format(tnum + 1, len(tests)))
         else:
-            print("Teste {:d}/{:d} FALHOU".format(tnum + 1, len(tests)))
+            log.error("Teste {:d}/{:d} FALHOU".format(tnum + 1, len(tests)))
             exit(1)
-        print("------------------------------")
+        log.info("------------------------------")
 
 if __name__ == "__main__":
     main()
