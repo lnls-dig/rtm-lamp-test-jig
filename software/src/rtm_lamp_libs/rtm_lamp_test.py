@@ -197,7 +197,11 @@ class TestTemps(Test):
     def _run(self):
         print("Testando sensores de temperatura")
         temps = self._devices.tmeas.get_temps()
-        print(temps)
+        for key, val in temps.items():
+            if val < 10 or val > 40:
+                raise Exception("Temperatura fora  da faixa especificada: {} = {:.02f}°C".format(key, val))
+            else:
+                print("Temperatura {} = {:.02f}°C OK".format(key, val))
 
 def main():
     i2c_bus = 2
