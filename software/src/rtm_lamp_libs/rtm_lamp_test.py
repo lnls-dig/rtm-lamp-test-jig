@@ -220,7 +220,8 @@ class TestSupply(Test):
             ok = True
             for key, val in vmeas.items():
                 if abs(val) > abs(maximum_voltages[key]):
-                    raise Exception("  Alimentação {} = {:.02f}V > {:.02f}V (sobretensão) FALHOU".format(key, val, maximum_voltages[key]))
+                    greater_lesser = ">" if val > maximum_voltages[key] else "<"
+                    raise Exception("  Alimentação {} = {:.02f}V {} {:.02f}V (sobretensão) FALHOU".format(key, val, greater_lesser, maximum_voltages[key]))
                 err = val - expected_voltages[key][0]
                 if abs(err) >= expected_voltages[key][1]:
                     ok = False
