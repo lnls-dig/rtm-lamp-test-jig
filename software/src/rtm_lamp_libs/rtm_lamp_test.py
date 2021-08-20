@@ -212,6 +212,98 @@ class TestTemps(Test):
             else:
                 print("Temperatura {} = {:.02f}°C OK".format(key, val))
 
+class TestSupply(Test):
+    def test_voltages(self, expected_voltages, maximum_voltages, timeout):
+        """Test power supply voltages"""
+        while timeout > 0:
+            vmeas = self._devices.vmeas.get_voltages()
+            ok = True
+            for key, val in vmeas.items():
+                if abs(val) > abs(maximum_voltages[key]):
+                    raise Exception("  Alimentação {} = {:.02f}V > {:.02f}V (sobretensão) FALHOU".format(key, val, maximum_voltages[key]))
+                err = val - expected_voltages[key][0]
+                if abs(err) >= expected_voltages[key][1]:
+                    ok = False
+            if ok:
+                break
+            else:
+                timeout = timeout - 1
+            time.sleep(1)
+        vmeas = self._devices.vmeas.get_voltages()
+        for key, val in vmeas.items():
+            err = val - expected_voltages[key][0]
+            if abs(err) < expected_voltages[key][1]:
+                print("  Alimentação {} = {:.02f}V OK".format(key, val))
+            else:
+                raise Exception("  Alimentação {} = {:.02f}V FALHOU".format(key, val))
+
+    def _run(self):
+        print("Testando alimentação")
+        max_abs_voltages = {"VS1" : 5.1,
+                            "VS2" : 5.1,
+                            "-7V" : -7.5,
+                            "+7V" : 7.5,
+                            "+5V" : 5.5,
+                            "+3V3" : 3.5,
+                            "+2V5" : 2.6}
+        try:
+            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
+            print("Desligando alimentações...")
+            expected_voltages = {"VS1" : [0, 0.1],
+                                 "VS2" : [0, 0.1],
+                                 "-7V" : [0, 0.2],
+                                 "+7V" : [0, 0.2],
+                                 "+5V" : [0, 0.15],
+                                 "+3V3" : [0, 0.1],
+                                 "+2V5" : [0, 0.1]}
+            self.test_voltages(expected_voltages, max_abs_voltages, 20)
+            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=True, en_5v=True)
+            print("Habilitando +7V, -7V e +5V...")
+            expected_voltages = {"VS1" : [0, 0.1],
+                                 "VS2" : [0, 0.1],
+                                 "-7V" : [-7, 0.2],
+                                 "+7V" : [7, 0.2],
+                                 "+5V" : [5, 0.15],
+                                 "+3V3" : [3.3, 0.1],
+                                 "+2V5" : [2.5, 0.1]}
+            self.test_voltages(expected_voltages, max_abs_voltages, 20)
+            self._devices.gpio.set_pwr(en_vs1=True, en_vs2=False, en_7v=False, en_5v=False)
+            print("Habilitando VS1...")
+            expected_voltages = {"VS1" : [4, 0.1],
+                                 "VS2" : [0, 0.1],
+                                 "-7V" : [0, 0.2],
+                                 "+7V" : [0, 0.2],
+                                 "+5V" : [0, 0.15],
+                                 "+3V3" : [0, 0.2],
+                                 "+2V5" : [0, 0.2]}
+            self.test_voltages(expected_voltages, max_abs_voltages, 20)
+            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=True, en_7v=False, en_5v=False)
+            print("Habilitando VS2...")
+            expected_voltages = {"VS1" : [0, 0.1],
+                                 "VS2" : [4, 0.1],
+                                 "-7V" : [0, 0.2],
+                                 "+7V" : [0, 0.2],
+                                 "+5V" : [0, 0.15],
+                                 "+3V3" : [0, 0.2],
+                                 "+2V5" : [0, 0.2]}
+            self.test_voltages(expected_voltages, max_abs_voltages, 20)
+            self._devices.gpio.set_pwr(en_vs1=True, en_vs2=True, en_7v=True, en_5v=True)
+            print("Habilitando VS1, VS2, -7V, +7V e +5V...")
+            expected_voltages = {"VS1" : [4, 0.1],
+                                 "VS2" : [4, 0.1],
+                                 "-7V" : [-7, 0.2],
+                                 "+7V" : [7, 0.2],
+                                 "+5V" : [5, 0.15],
+                                 "+3V3" : [3.3, 0.2],
+                                 "+2V5" : [2.5, 0.2]}
+            self.test_voltages(expected_voltages, max_abs_voltages, 20)
+        except Exception as e:
+            print("Desligando alimentações...")
+            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
+            raise e
+        print("Desligando alimentações...")
+        self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
+
 def main():
     i2c_bus = 2
     print("Início do procedimento de testes")
@@ -223,7 +315,7 @@ def main():
     print("Dispositivos I2C inicializados")
     print("------------------------------")
 
-    tests = [TestLED(devices), TestTemps(devices)]
+    tests = [TestLED(devices), TestTemps(devices), TestSupply(devices)]
 
     for tnum, test in enumerate(tests):
         if test.run():
