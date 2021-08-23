@@ -53,7 +53,7 @@ class VoltMeasure():
             self._max11609.set_config(max11609_cfg)
         except OSError as e:
             if e.errno == errno.ENXIO:
-                raise Exception("Falha na comunicação com IC14 (I2C ack fail, addr = 0x33)")
+                raise RuntimeError("Falha na comunicação com IC14 (I2C ack fail, addr = 0x33)")
             else:
                 raise e
 
@@ -62,7 +62,7 @@ class VoltMeasure():
             samples = self._max11609.read(7)
         except OSError as e:
             if e.errno == errno.ENXIO:
-                raise Exception("Falha na comunicação com IC14 (I2C ack fail, addr = 0x33)")
+                raise RuntimeError("Falha na comunicação com IC14 (I2C ack fail, addr = 0x33)")
             else:
                 raise e
         measurements = {
@@ -85,7 +85,7 @@ class GpioCtrl():
             self._pca_leds.write_port(0xE0)
         except OSError as e:
             if e.errno == errno.ENXIO:
-                raise Exception("Falha na comunicação com IC1 (I2C ack fail, addr = 0x20)")
+                raise RuntimeError("Falha na comunicação com IC1 (I2C ack fail, addr = 0x20)")
             else:
                 raise e
         try:
@@ -93,7 +93,7 @@ class GpioCtrl():
             self._pca_pwr.write_port(0x04)
         except OSError as e:
             if e.errno == errno.ENXIO:
-                raise Exception("Falha na comunicação com IC13 (I2C ack fail, addr = 0x21)")
+                raise RuntimeError("Falha na comunicação com IC13 (I2C ack fail, addr = 0x21)")
             else:
                 raise e
 
@@ -109,7 +109,7 @@ class GpioCtrl():
             self._pca_leds.write_port(port)
         except OSError as e:
             if e.errno == errno.ENXIO:
-                raise Exception("Falha na comunicação com IC1 (I2C ack fail, addr = 0x20)")
+                raise RuntimeError("Falha na comunicação com IC1 (I2C ack fail, addr = 0x20)")
             else:
                 raise e
 
@@ -118,7 +118,7 @@ class GpioCtrl():
             port = self._pca_leds.read_port()
         except OSError as e:
             if e.errno == errno.ENXIO:
-                raise Exception("Falha na comunicação com IC1 (I2C ack fail, addr = 0x20)")
+                raise RuntimeError("Falha na comunicação com IC1 (I2C ack fail, addr = 0x20)")
             else:
                 raise e
         if port & 0x01:
@@ -142,7 +142,7 @@ class GpioCtrl():
             self._pca_pwr.write_port(port)
         except OSError as e:
             if e.errno == errno.ENXIO:
-                raise Exception("Falha na comunicação com IC13 (I2C ack fail, addr = 0x21)")
+                raise RuntimeError("Falha na comunicação com IC13 (I2C ack fail, addr = 0x21)")
             else:
                 raise e
 
@@ -157,21 +157,21 @@ class Temperature():
             temp_supply = self._temp_supply.get_temp()
         except OSError as e:
             if e.errno == errno.ENXIO:
-                raise Exception("Falha na comunicação com IC44 (I2C ack fail, addr = 0x4B)")
+                raise RuntimeError("Falha na comunicação com IC44 (I2C ack fail, addr = 0x4B)")
             else:
                 raise e
         try:
             temp_airin = self._temp_airin.get_temp()
         except OSError as e:
             if e.errno == errno.ENXIO:
-                raise Exception("Falha na comunicação com IC2 (I2C ack fail, addr = 0x48)")
+                raise RuntimeError("Falha na comunicação com IC2 (I2C ack fail, addr = 0x48)")
             else:
                 raise e
         try:
             temp_airout = self._temp_airout.get_temp()
         except OSError as e:
             if e.errno == errno.ENXIO:
-                raise Exception("Falha na comunicação com IC3 (I2C ack fail, addr = 0x49)")
+                raise RuntimeError("Falha na comunicação com IC3 (I2C ack fail, addr = 0x49)")
             else:
                 raise e
         temps = {
@@ -211,13 +211,13 @@ class TestLED(Test):
         ans = input()
         self._log.debug(ans)
         if ans != "s" and ans != "S":
-            raise Exception("Falha nos LEDs")
+            raise RuntimeError("Falha nos LEDs")
         self._devices.gpio.set_leds(False, False, False)
         self._log.info("LEDs Azul (LED1), Verde (LED2) e Vermelho (LED3) apagados [s/n]?")
         ans = input()
         self._log.debug(ans)
         if ans != "s" and ans != "S":
-            raise Exception("Falha nos LEDs")
+            raise RuntimeError("Falha nos LEDs")
 
 class TestTemps(Test):
     def _run(self):
@@ -225,7 +225,7 @@ class TestTemps(Test):
         temps = self._devices.tmeas.get_temps()
         for key, val in temps.items():
             if val < 10 or val > 40:
-                raise Exception("Temperatura fora  da faixa especificada: {} = {:.02f}°C".format(key, val))
+                raise RuntimeError("Temperatura fora  da faixa especificada: {} = {:.02f}°C".format(key, val))
             else:
                 self._log.info("Temperatura {} = {:.02f}°C OK".format(key, val))
 
@@ -238,7 +238,7 @@ class TestSupply(Test):
             for key, val in vmeas.items():
                 if abs(val) > abs(maximum_voltages[key]):
                     greater_lesser = ">" if val > maximum_voltages[key] else "<"
-                    raise Exception("  Alimentação {} = {:.02f}V {} {:.02f}V (sobretensão) FALHOU".format(key, val, greater_lesser, maximum_voltages[key]))
+                    raise RuntimeError("  Alimentação {} = {:.02f}V {} {:.02f}V (sobretensão) FALHOU".format(key, val, greater_lesser, maximum_voltages[key]))
                 err = val - expected_voltages[key][0]
                 if abs(err) >= expected_voltages[key][1]:
                     ok = False
@@ -253,7 +253,7 @@ class TestSupply(Test):
             if abs(err) < expected_voltages[key][1]:
                 self._log.info("  Alimentação {} = {:.02f}V OK".format(key, val))
             else:
-                raise Exception("  Alimentação {} = {:.02f}V FALHOU".format(key, val))
+                raise RuntimeError("  Alimentação {} = {:.02f}V FALHOU".format(key, val))
 
     def _run(self):
         self._log.info("Testando alimentação")
@@ -315,7 +315,7 @@ class TestSupply(Test):
                                  "+3V3" : [3.3, 0.2],
                                  "+2V5" : [2.5, 0.2]}
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
-        except Exception as e:
+        except RuntimeError as e:
             self._log.info("Desligando alimentações...")
             self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
             raise e
@@ -400,7 +400,7 @@ class ConfigureCDCE906(Test):
         cfg_read = self._devices.cdce906.get_cfg()
         self._log.debug(json.dumps(cfg_read, indent=4))
         if cfg != cfg_read:
-            raise Exception("Configuração inválida do CDCE906 (IC12)")
+            raise RuntimeError("Configuração inválida do CDCE906 (IC12)")
 
 def main():
     try:
