@@ -1,0 +1,37 @@
+BoardInfo:
+  mfg_date_time: 2021-09-24 15:00:00
+  manufacturer: Produza
+  product_name: 'RTM-LAMP:1.2'
+  serial_number: 'CN00001'
+  part_number: 'RTM-LAMP'
+
+ProductInfo:
+  manufacturer: CNPEM
+  product_name: 'RTM-LAMP'
+  version: '1.2'
+  serial_number: 'CN00001'
+  asset_tag: CN00001
+
+MultirecordArea:
+- type: ModuleCurrentRequirements
+  current_draw: 3.0
+
+- type: Zone3InterfaceCompatibility
+  identifier_type: CLASS_ID
+  identifier_body:
+  - D1.0
+
+- type: Zone3InterfaceCompatibility
+  identifier_type: CLASS_ID
+  identifier_body:
+  - D1.1
+
+- type: Zone3InterfaceCompatibility
+  identifier_type: CLASS_ID
+  identifier_body:
+  - D1.2
+
+- type: Zone3InterfaceCompatibility
+  identifier_type: CLASS_ID
+  identifier_body:
+  - D1.3
