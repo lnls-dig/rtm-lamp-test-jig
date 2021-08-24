@@ -21,7 +21,7 @@ setup(
         ],
     },
     long_description = "Utilities to test and configure RTM-LAMP boards.",
-    install_requires = ["smbus2"],
+    install_requires = ["smbus2", "frugy", "PyYAML"],
     ext_modules = [cdce906_mod],
     platforms = ["Linux"],
     classifiers = [

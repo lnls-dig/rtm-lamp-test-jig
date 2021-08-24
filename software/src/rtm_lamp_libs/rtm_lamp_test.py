@@ -24,6 +24,11 @@ import errno
 import time
 import json
 import logging
+import yaml
+import datetime
+import copy
+from pathlib import Path
+from frugy.fru import Fru
 from rtm_lamp_libs import *
 
 class RTMLoggerFile(logging.Handler):
@@ -190,9 +195,10 @@ class RTMDevices():
         self.eeprom = ee24xx64.ee24xx64(i2c_bus, 0x50)
 
 class Test():
-    def __init__(self, devices, log):
+    def __init__(self, devices, log, frufile):
         self._devices = devices
         self._log = log
+        self._frufile = frufile
 
     def run(self):
         passed = False
@@ -202,6 +208,22 @@ class Test():
         except Exception as e:
             self._log.error(e.__str__())
         return passed
+
+class CheckFRU(Test):
+    def _run(self):
+        self._log.info("Checando eeprom")
+        fru_bin = self._devices.eeprom.read(0x0000, 2048)
+        fru = Fru()
+        try:
+            fru.deserialize(fru_bin)
+        except RuntimeError as e:
+            return
+        self._log.debug(fru.dump_yaml())
+        self._log.info("FRU já programada, deseja continuar mesmo assim [s/n]?")
+        ans = input()
+        self._log.debug(ans)
+        if ans != "s" and ans != "S":
+            raise RuntimeError("FRU já programada")
 
 class TestLED(Test):
     def _run(self):
@@ -402,12 +424,60 @@ class ConfigureCDCE906(Test):
         if cfg != cfg_read:
             raise RuntimeError("Configuração inválida do CDCE906 (IC12)")
 
+class ProgramFRU(Test):
+    def _run(self):
+        self._log.info("Programando eeprom")
+        with open(self._frufile, "r") as fru_file:
+            fru_yaml_data = fru_file.read()
+            fru_dict = yaml.safe_load(fru_yaml_data)
+            self._log.debug("Template YAML para FRU:")
+            self._log.debug(fru_yaml_data)
+
+        datenow = datetime.datetime.now()
+        serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "r+")
+        try:
+            serialnum = int(serial_file.readline())
+        except ValueError as e:
+            serialnum = 1
+
+        serialnum_str = "CN{:05d}".format(serialnum)
+        self._log.info("Serial number: {}".format(serialnum_str))
+        fru_dict["BoardInfo"]["mfg_date_time"] = datetime.datetime(datenow.year,
+                                                                   datenow.month,
+                                                                   datenow.day,
+                                                                   datenow.hour,
+                                                                   datenow.minute)
+        fru_dict["BoardInfo"]["serial_number"] = serialnum_str
+        fru_dict["ProductInfo"]["serial_number"] = serialnum_str
+        fru_dict["ProductInfo"]["asset_tag"] = serialnum_str
+
+        fru = Fru(copy.deepcopy(fru_dict)) # frugy modifies the
+                                           # dictionary, so you should
+                                           # pass a copy if you want
+                                           # to access the dictionary
+                                           # again.
+        self._devices.eeprom.write(0x0000, fru.serialize())
+        time.sleep(0.5)
+        self._log.info("Lendo eeprom")
+        fru.deserialize(self._devices.eeprom.read(0x0000, 2048))
+        if fru.to_dict() != fru_dict:
+            self._log.debug("Dicionário gerado:")
+            self._log.debug(str(fru_dict))
+            self._log.debug("Dicionário lido:")
+            self._log.debug(str(fru.to_dict()))
+            raise RuntimeError("Conteúdo FRU da eeprom difere do programado")
+        serialnum = serialnum + 1
+        serial_file.seek(0)
+        serial_file.write(str(serialnum) + "\n")
+        serial_file.close()
+
 def main():
     try:
         i2c_bus = int(sys.argv[1])
-        logfile = sys.argv[2]
+        frufile = sys.argv[2]
+        logfile = sys.argv[3]
     except:
-        print("Usage: {} i2c_bus logfile".format(sys.argv[0]))
+        print("Usage: {} i2c_bus fru-file.yml logfile".format(sys.argv[0]))
         exit(1)
 
     log = logging.Logger("rtm-test-logger")
@@ -424,10 +494,12 @@ def main():
     log.info("------------------------------")
 
     tests = [
-        TestLED(devices, log),
-        TestTemps(devices, log),
-        TestSupply(devices, log),
-        ConfigureCDCE906(devices, log),
+        CheckFRU(devices, log, frufile),
+        TestLED(devices, log, frufile),
+        TestTemps(devices, log, frufile),
+        TestSupply(devices, log, frufile),
+        ConfigureCDCE906(devices, log, frufile),
+        ProgramFRU(devices, log, frufile),
     ]
 
     for tnum, test in enumerate(tests):
