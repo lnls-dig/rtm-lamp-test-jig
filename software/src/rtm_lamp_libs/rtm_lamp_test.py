@@ -131,16 +131,16 @@ class GpioCtrl():
         else:
             return True
 
-    def set_pwr(self, en_vs1, en_vs2, en_7v, en_5v):
+    def set_pwr(self, en_vs1, en_vs2, en_p7v, en_n7v, en_5v):
         port = 0x00
         if en_vs1:
             port = port | 0x01
         if en_vs2:
             port = port | 0x02
-        if en_7v:
-            port = port | 0x10
-        else:
+        if not en_p7v:
             port = port | 0x04
+        if en_n7v:
+            port = port | 0x10
         if en_5v:
             port = port | 0x08
         try:
@@ -287,7 +287,7 @@ class TestSupply(Test):
                             "+3V3" : 3.5,
                             "+2V5" : 2.6}
         try:
-            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
+            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_p7v=False, en_n7v=False, en_5v=False)
             self._log.info("Desligando alimentações...")
             expected_voltages = {"VS1" : [0, 0.1],
                                  "VS2" : [0, 0.1],
@@ -297,7 +297,7 @@ class TestSupply(Test):
                                  "+3V3" : [0, 0.1],
                                  "+2V5" : [0, 0.1]}
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
-            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=True, en_5v=True)
+            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_p7v=True, en_n7v=True, en_5v=True)
             self._log.info("Habilitando +7V, -7V e +5V...")
             expected_voltages = {"VS1" : [0, 0.1],
                                  "VS2" : [0, 0.1],
@@ -307,7 +307,7 @@ class TestSupply(Test):
                                  "+3V3" : [3.3, 0.1],
                                  "+2V5" : [2.5, 0.1]}
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
-            self._devices.gpio.set_pwr(en_vs1=True, en_vs2=False, en_7v=False, en_5v=False)
+            self._devices.gpio.set_pwr(en_vs1=True, en_vs2=False, en_p7v=False, en_n7v=False, en_5v=False)
             self._log.info("Habilitando VS1...")
             expected_voltages = {"VS1" : [4, 0.1],
                                  "VS2" : [0, 0.1],
@@ -317,7 +317,7 @@ class TestSupply(Test):
                                  "+3V3" : [0, 0.2],
                                  "+2V5" : [0, 0.2]}
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
-            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=True, en_7v=False, en_5v=False)
+            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=True, en_p7v=False, en_n7v=False, en_5v=False)
             self._log.info("Habilitando VS2...")
             expected_voltages = {"VS1" : [0, 0.1],
                                  "VS2" : [4, 0.1],
@@ -327,7 +327,7 @@ class TestSupply(Test):
                                  "+3V3" : [0, 0.2],
                                  "+2V5" : [0, 0.2]}
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
-            self._devices.gpio.set_pwr(en_vs1=True, en_vs2=True, en_7v=True, en_5v=True)
+            self._devices.gpio.set_pwr(en_vs1=True, en_vs2=True, en_p7v=True, en_n7v=True, en_5v=True)
             self._log.info("Habilitando VS1, VS2, -7V, +7V e +5V...")
             expected_voltages = {"VS1" : [4, 0.1],
                                  "VS2" : [4, 0.1],
@@ -339,10 +339,10 @@ class TestSupply(Test):
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
         except RuntimeError as e:
             self._log.info("Desligando alimentações...")
-            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
+            self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_p7v=False, en_n7v=False, en_5v=False)
             raise e
         self._log.info("Desligando alimentações...")
-        self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_7v=False, en_5v=False)
+        self._devices.gpio.set_pwr(en_vs1=False, en_vs2=False, en_p7v=False, en_n7v=False, en_5v=False)
 
 class ConfigureCDCE906(Test):
     def _run(self):
