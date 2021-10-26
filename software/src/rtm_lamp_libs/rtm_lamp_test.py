@@ -434,10 +434,13 @@ class ProgramFRU(Test):
             self._log.debug(fru_yaml_data)
 
         datenow = datetime.datetime.now()
-        serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "r+")
         try:
+            serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "r+")
             serialnum = int(serial_file.readline())
-        except ValueError as e:
+        except ValueError:
+            serialnum = 1
+        except OSError:
+            serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "w+")
             serialnum = 1
 
         serialnum_str = "CN{:05d}".format(serialnum)
