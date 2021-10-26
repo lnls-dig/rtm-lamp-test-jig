@@ -34,7 +34,7 @@ from rtm_lamp_libs import *
 class RTMLoggerFile(logging.Handler):
     def __init__(self, logfile, level=logging.NOTSET):
         self.setLevel(level)
-        self._logfile = open(logfile, "w")
+        self._logfile = open(logfile, "a")
 
     def handle(self, record):
         self._logfile.write(record.msg + "\n")
