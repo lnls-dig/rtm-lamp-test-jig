@@ -309,7 +309,7 @@ class TestSupply(Test):
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
             self._devices.gpio.set_pwr(en_vs1=True, en_vs2=False, en_p7v=False, en_n7v=False, en_5v=False)
             self._log.info("Habilitando VS1...")
-            expected_voltages = {"VS1" : [4, 0.1],
+            expected_voltages = {"VS1" : [3.7, 0.1],
                                  "VS2" : [0, 0.1],
                                  "-7V" : [0, 0.2],
                                  "+7V" : [0, 0.2],
@@ -320,7 +320,7 @@ class TestSupply(Test):
             self._devices.gpio.set_pwr(en_vs1=False, en_vs2=True, en_p7v=False, en_n7v=False, en_5v=False)
             self._log.info("Habilitando VS2...")
             expected_voltages = {"VS1" : [0, 0.1],
-                                 "VS2" : [4, 0.1],
+                                 "VS2" : [3.7, 0.1],
                                  "-7V" : [0, 0.2],
                                  "+7V" : [0, 0.2],
                                  "+5V" : [0, 0.15],
@@ -329,8 +329,8 @@ class TestSupply(Test):
             self.test_voltages(expected_voltages, max_abs_voltages, 20)
             self._devices.gpio.set_pwr(en_vs1=True, en_vs2=True, en_p7v=True, en_n7v=True, en_5v=True)
             self._log.info("Habilitando VS1, VS2, -7V, +7V e +5V...")
-            expected_voltages = {"VS1" : [4, 0.1],
-                                 "VS2" : [4, 0.1],
+            expected_voltages = {"VS1" : [3.7, 0.1],
+                                 "VS2" : [3.7, 0.1],
                                  "-7V" : [-7, 0.2],
                                  "+7V" : [7, 0.2],
                                  "+5V" : [5, 0.15],
