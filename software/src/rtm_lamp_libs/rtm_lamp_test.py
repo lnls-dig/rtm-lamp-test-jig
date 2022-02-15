@@ -434,14 +434,29 @@ class ProgramFRU(Test):
             self._log.debug(fru_yaml_data)
 
         datenow = datetime.datetime.now()
+
+        fru_bin = self._devices.eeprom.read(0x0000, 2048)
+        fru = Fru()
+        serial_number_kept = False
         try:
-            serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "r+")
-            serialnum = int(serial_file.readline())
-        except ValueError:
-            serialnum = 1
-        except OSError:
-            serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "w+")
-            serialnum = 1
+            fru.deserialize(fru_bin)
+        except RuntimeError as e:
+            pass
+        else:
+            serial_number_kept = True
+            serialnum = int(fru.areas['BoardInfo']['serial_number'].replace("CN", ""))
+
+        if not serial_number_kept:
+            try:
+                serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "r+")
+                serialnum = int(serial_file.readline())
+            except ValueError:
+                serialnum = 1
+            except OSError:
+                serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "w+")
+                serialnum = 1
+        else:
+            self._log.info("O serial number previamente configurado será mantido.")
 
         serialnum_str = "CN{:05d}".format(serialnum)
         self._log.info("Serial number: {}".format(serialnum_str))
@@ -469,10 +484,12 @@ class ProgramFRU(Test):
             self._log.debug("Dicionário lido:")
             self._log.debug(str(fru.to_dict()))
             raise RuntimeError("Conteúdo FRU da eeprom difere do programado")
-        serialnum = serialnum + 1
-        serial_file.seek(0)
-        serial_file.write(str(serialnum) + "\n")
-        serial_file.close()
+
+        if not serial_number_kept:
+            serialnum = serialnum + 1
+            serial_file.seek(0)
+            serial_file.write(str(serialnum) + "\n")
+            serial_file.close()
 
 def main():
     try:
