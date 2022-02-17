@@ -212,7 +212,15 @@ class Test():
 class CheckFRU(Test):
     def _run(self):
         self._log.info("Checando eeprom")
-        fru_bin = self._devices.eeprom.read(0x0000, 2048)
+
+        try:
+            fru_bin = self._devices.eeprom.read(0x0000, 2048)
+        except OSError as e:
+            if e.errno == errno.ENXIO:
+                raise RuntimeError("Falha na comunicação com IC4 (I2C ack fail, addr = 0x50)")
+            else:
+                raise e
+
         fru = Fru()
         try:
             fru.deserialize(fru_bin)
@@ -416,10 +424,26 @@ class ConfigureCDCE906(Test):
         }
         self._log.debug("Configuração enviada:")
         self._log.debug(json.dumps(cfg, indent=4))
-        self._devices.cdce906.set_cfg(cfg, write_eeprom=True)
+
+        try:
+            self._devices.cdce906.set_cfg(cfg, write_eeprom=True)
+        except OSError as e:
+            if e.errno == errno.ENXIO:
+                raise RuntimeError("Falha na comunicação com IC12 (I2C ack fail, addr = 0x69)")
+            else:
+                raise e
+
         time.sleep(.2)
         self._log.debug("Configuração lida:")
-        cfg_read = self._devices.cdce906.get_cfg()
+
+        try:
+            cfg_read = self._devices.cdce906.get_cfg()
+        except OSError as e:
+            if e.errno == errno.ENXIO:
+                raise RuntimeError("Falha na comunicação com IC12 (I2C ack fail, addr = 0x69)")
+            else:
+                raise e
+
         self._log.debug(json.dumps(cfg_read, indent=4))
         if cfg != cfg_read:
             raise RuntimeError("Configuração inválida do CDCE906 (IC12)")
@@ -434,14 +458,36 @@ class ProgramFRU(Test):
             self._log.debug(fru_yaml_data)
 
         datenow = datetime.datetime.now()
+
         try:
-            serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "r+")
-            serialnum = int(serial_file.readline())
-        except ValueError:
-            serialnum = 1
-        except OSError:
-            serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "w+")
-            serialnum = 1
+            fru_bin = self._devices.eeprom.read(0x0000, 2048)
+        except OSError as e:
+            if e.errno == errno.ENXIO:
+                raise RuntimeError("Falha na comunicação com IC4 (I2C ack fail, addr = 0x69)")
+            else:
+                raise e
+
+        fru = Fru()
+        serial_number_kept = False
+        try:
+            fru.deserialize(fru_bin)
+        except RuntimeError as e:
+            pass
+        else:
+            serial_number_kept = True
+            serialnum = int(fru.areas['BoardInfo']['serial_number'].replace("CN", ""))
+
+        if not serial_number_kept:
+            try:
+                serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "r+")
+                serialnum = int(serial_file.readline())
+            except ValueError:
+                serialnum = 1
+            except OSError:
+                serial_file = open(str(Path.home()) + "/.rtm_lamp_serial", "w+")
+                serialnum = 1
+        else:
+            self._log.info("O serial number previamente configurado será mantido.")
 
         serialnum_str = "CN{:05d}".format(serialnum)
         self._log.info("Serial number: {}".format(serialnum_str))
@@ -459,20 +505,39 @@ class ProgramFRU(Test):
                                            # pass a copy if you want
                                            # to access the dictionary
                                            # again.
-        self._devices.eeprom.write(0x0000, fru.serialize())
+
+        try:
+            self._devices.eeprom.write(0x0000, fru.serialize())
+        except OSError as e:
+            if e.errno == errno.ENXIO:
+                raise RuntimeError("Falha na comunicação com IC4 (I2C ack fail, addr = 0x50)")
+            else:
+                raise e
+
         time.sleep(0.5)
         self._log.info("Lendo eeprom")
-        fru.deserialize(self._devices.eeprom.read(0x0000, 2048))
+
+        try:
+            fru_bin = self._devices.eeprom.read(0x0000, 2048)
+        except OSError as e:
+            if e.errno == errno.ENXIO:
+                raise RuntimeError("Falha na comunicação com IC4 (I2C ack fail, addr = 0x50)")
+            else:
+                raise e
+
+        fru.deserialize(fru_bin)
         if fru.to_dict() != fru_dict:
             self._log.debug("Dicionário gerado:")
             self._log.debug(str(fru_dict))
             self._log.debug("Dicionário lido:")
             self._log.debug(str(fru.to_dict()))
             raise RuntimeError("Conteúdo FRU da eeprom difere do programado")
-        serialnum = serialnum + 1
-        serial_file.seek(0)
-        serial_file.write(str(serialnum) + "\n")
-        serial_file.close()
+
+        if not serial_number_kept:
+            serialnum = serialnum + 1
+            serial_file.seek(0)
+            serial_file.write(str(serialnum) + "\n")
+            serial_file.close()
 
 def main():
     try:
