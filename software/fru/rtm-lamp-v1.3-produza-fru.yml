@@ -30,7 +30,7 @@ MultirecordArea:
 - type: Zone3InterfaceCompatibility
   identifier_type: CLASS_ID
   identifier_body:
-  - D1.3
+  - D1.2
 
 - type: Zone3InterfaceCompatibility
   identifier_type: CLASS_ID
